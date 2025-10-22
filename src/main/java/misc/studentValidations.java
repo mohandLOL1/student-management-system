@@ -1,11 +1,14 @@
 
 package misc;
 
-import java.io.*;
+import java.util.Set;
+
 
 public class studentValidations {
-    public static boolean validateID(int ID) { //random ID, with only digits from 10000 to 20000
-
+    
+    public static boolean validateID(String stringID) { //random ID, with only digits from 10000 to 20000
+      int ID = Integer.parseInt(stringID);
+  
       return ID>=10000 && ID<=20000;
     }
 
@@ -23,14 +26,19 @@ public class studentValidations {
      if(department==null)
        return false;
      
+     Set<String> VALID_DEPARTMENTS = Set.of("mechanical", "electrical", "civil", "computer");
+     
+     if(!VALID_DEPARTMENTS.contains(department)){
+         return false;
+     }
      char[]Department=department.toCharArray();
      
      for(int i=0;i<department.length();i++){
        if(!Character.isLetter(Department[i])){
-          System.out.println("department not exist");
         return false;
        }
      }
+     
      return true;
     }
     
