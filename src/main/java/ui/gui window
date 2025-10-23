@@ -1,0 +1,113 @@
+package gui;
+
+import javax.swing.*;
+import java.awt.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class MainWindow {
+    private JFrame frame;
+    private JTextField usernameField;
+    private JPasswordField passwordField;
+    private JLabel messageLabel;
+    private JButton loginButton;
+
+    public MainWindow() {
+        showLoginScreen();
+    }
+
+public void showLoginScreen() {
+    frame = new JFrame("Login - Student Management System");
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setSize(400, 250);
+    frame.setLocationRelativeTo(null);
+    frame.setLayout(new GridLayout(4, 1, 10, 10));
+
+    usernameField = new JTextField();
+    passwordField = new JPasswordField();
+
+    Dimension fieldSize = new Dimension(180, 25);
+    usernameField.setPreferredSize(fieldSize);
+    passwordField.setPreferredSize(fieldSize);
+
+    messageLabel = new JLabel("", JLabel.CENTER);
+    messageLabel.setForeground(Color.RED);
+
+    loginButton = new JButton("Login");
+
+    // Username row
+    JPanel userPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
+    userPanel.add(new JLabel("Username:"));
+    userPanel.add(usernameField);
+
+    // Password row
+    JPanel passPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
+    passPanel.add(new JLabel("Password:"));
+    passPanel.add(passwordField);
+
+    // Login button row
+    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+    buttonPanel.add(loginButton);
+
+    frame.add(userPanel);
+    frame.add(passPanel);
+    frame.add(buttonPanel);
+    frame.add(messageLabel);
+
+    loginButton.addActionListener(e -> {
+        String username = usernameField.getText().trim();
+        String password = new String(passwordField.getPassword()).trim();
+
+        try {
+            if (checkCredentials(username, password)) {
+                showHomeScreen(username);
+            } else {
+                messageLabel.setText("Invalid username or password!");
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    });
+
+    frame.setVisible(true);
+}
+
+
+
+
+    public boolean checkCredentials(String username, String password) throws FileNotFoundException {
+        File file = new File("users.txt");
+        if (!file.exists()) return false;
+        Scanner scanner = new Scanner(file);
+        while (scanner.hasNextLine()) {
+            String[] parts = scanner.nextLine().split(",");
+            if (parts.length == 2) {
+                String fileUser = parts[0].trim();
+                String filePass = parts[1].trim();
+                if (fileUser.equals(username) && filePass.equals(password)) {
+                    scanner.close();
+                    return true;
+                }
+            }
+        }
+        scanner.close();
+        return false;
+    }
+
+    public void showHomeScreen(String username) {
+        frame.getContentPane().removeAll();
+        frame.setTitle("Welcome to Student Management System");
+        frame.setSize(800, 500);
+        frame.setLayout(new BorderLayout());
+
+        JLabel welcomeLabel = new JLabel("Welcome to Student Management System, " + username + "!", JLabel.CENTER);
+        welcomeLabel.setFont(new Font("Arial", Font.BOLD, 22));
+
+        frame.add(welcomeLabel, BorderLayout.CENTER);
+        frame.revalidate();
+        frame.repaint();
+    }
+}
