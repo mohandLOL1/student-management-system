@@ -1,49 +1,30 @@
-
 package misc;
 
 import java.io.*;
-import java.util.ArrayList;
+
 import java.util.Scanner;
 
 public class Login {
-  private String Username;
-  private String Password;
 
-public Login(String Username, String Password) {
-     this.Username = Username;
-     this.Password = Password;
-}
+    public static boolean user_login(String Username, String Password){
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(new File("data/users.txt"));
+        } catch (FileNotFoundException ex) {
+            System.getLogger(Login.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
 
-public boolean user_login(String Username, String Password)throws IOException{
-  Scanner f=new Scanner(new File("users.txt"));
- 
-  while(f.hasNextLine()){
-    String l=f.nextLine().trim();
-    String [] tokens=l.split(",");
-    String name=tokens[0].trim();
-    String pass=tokens[1].trim();
-  if(Username.equals(name)&&Password.equals(pass)){
-      return true;}
-  }
-  f.close();
-      return false;
-}
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine().trim();
+            String[] tokens = line.split(",");
+            String name = tokens[0].trim();
+            String pass = tokens[1].trim();
+            if (Username.equals(name) && Password.equals(pass)) {
+                return true;
+            }
+        }
+        scanner.close();
+        return false;
+    }
 
-public void setUsername(String Username) {
-     this.Username = Username;
-}
-
-public void setPassword(String Password) {
-     this.Password = Password;
-}
-
-
-public String getUsername() {
-     return Username;
-}
-
-public String getPassword() {
-     return Password;
-}
-  
 }

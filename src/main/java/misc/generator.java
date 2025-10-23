@@ -4,7 +4,7 @@ package misc;
 import java.util.Random;
 
 
-public class generator {
+public class Generator {
     
    public static int randomID(){ //generates random ID from 10000 to 20000
         Random rand = new Random();

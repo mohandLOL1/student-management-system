@@ -1,67 +1,74 @@
-
 package model;
 
+import misc.*;
+
 public class Student {
-    private int ID;
+
+    private String ID;
     private String name;
     private int age;
     private String gender;
     private String department;
     private double gpa;
-    
-    private final static int DEFAULTAGE = 16;
-    private final static String DEFAULTGENDER = "N/A";
 
-    public Student(int ID, String name, int age, String gender, String department, double gpa) {
+    public Student() {
+        this.ID = Integer.toString(Generator.randomID());
+    }
+    
+    public Student(String name, int age, String gender, String department, double gpa){
+        setAge(age);
+        setName(name);
+        setGender(gender);
+        setDepartment(department);
+        setGPA(gpa);
+        this.ID = Integer.toString(Generator.randomID());
+    }
+
+
+    public void setNewID(String ID) {
+        if (StudentValidations.validateID(ID) == false) {
+            throw new IllegalArgumentException("Invalid ID, has to be between 10000 to 20000");
+        }
+
         this.ID = ID;
-        this.name = name;
-        this.setAge(age);
-        this.setGender(gender);
-        this.department = department;
-        this.gpa = gpa;
-    }
-    
-    
-
-    public int getID(){
-        return ID;
     }
 
-    public String getName(){
+    public String getID() {
+        return this.ID;
+    }
+
+    public String getName() {
         return name;
     }
 
-    public boolean setName(String name){
-        this.name = name;
-        return true;
+    public void setName(String name) {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Name cannot be empty");
+        }
+        this.name = name.trim();
     }
 
     public int getAge() {
         return age;
     }
 
-    public boolean setAge(int age) {
-        if(age > 16 && age < 99){
-            this.age = age;
-            return true;
+    public void setAge(int age) {
+        if (StudentValidations.validateAge(age) == false) {
+            throw new IllegalArgumentException("Age must be within valid range (16-99)");
         }
-       
-       this.age = DEFAULTAGE;
-       return false;
+
+        this.age = age;
     }
 
     public String getGender() {
         return gender;
     }
 
-    public boolean setGender(String gender) {
-        if(gender.toLowerCase().equals("male") || gender.toLowerCase().equals("female")){
-            this.gender = gender;
-            return true;
+    public void setGender(String gender) {
+        if (StudentValidations.validateGender(gender) == false) {
+            throw new IllegalArgumentException("Gender must be either male or female");
         }
-        
-        this.gender = DEFAULTGENDER;
-        return false;
+        this.gender = gender;
     }
 
     public String getDepartment() {
@@ -69,22 +76,26 @@ public class Student {
     }
 
     public void setDepartment(String department) {
+        if (StudentValidations.validateDepartment(department) == false) {
+            throw new IllegalArgumentException("Invalid departement, please choose from either of these (mechanical, electrical, civil, computer)");
+        }
         this.department = department;
     }
- 
-    public double getGpa() {
+
+    public double getGPA() {
         return gpa;
     }
 
-    public void setGpa(double gpa) {
+    public void setGPA(double gpa) {
+        if (StudentValidations.validateGPA(gpa) == false) {
+            throw new IllegalArgumentException("Invalid GPA range, please enter gpa from (0 to 4.0)");
+        }
         this.gpa = gpa;
     }
-    
-    public String linerepresentation(){
-        return "";
+
+    public String lineRepresentation() {
+        String stringAge = Integer.toString(this.age);
+        String stringGPA = Double.toString(this.gpa);
+        return this.ID + "," + this.name + "," + stringAge + "," + this.gender.toLowerCase() + "," + this.department.toLowerCase() + "," + stringGPA;
     }
-    
-   
-    
-    
 }

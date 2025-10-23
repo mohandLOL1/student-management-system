@@ -1,12 +1,11 @@
-package gui;
+package ui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import misc.Login;
 
 public class MainWindow {
     private JFrame frame;
@@ -61,53 +60,17 @@ public void showLoginScreen() {
         String username = usernameField.getText().trim();
         String password = new String(passwordField.getPassword()).trim();
 
-        try {
-            if (checkCredentials(username, password)) {
-                showHomeScreen(username);
+       
+            if (Login.user_login(username, password)) {
+                HomePage h = new HomePage();
+                h.setVisible(true);
+                frame.setVisible(false);
             } else {
                 messageLabel.setText("Invalid username or password!");
             }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
     });
 
     frame.setVisible(true);
 }
 
-
-
-
-    public boolean checkCredentials(String username, String password) throws FileNotFoundException {
-        File file = new File("users.txt");
-        if (!file.exists()) return false;
-        Scanner scanner = new Scanner(file);
-        while (scanner.hasNextLine()) {
-            String[] parts = scanner.nextLine().split(",");
-            if (parts.length == 2) {
-                String fileUser = parts[0].trim();
-                String filePass = parts[1].trim();
-                if (fileUser.equals(username) && filePass.equals(password)) {
-                    scanner.close();
-                    return true;
-                }
-            }
-        }
-        scanner.close();
-        return false;
-    }
-
-    public void showHomeScreen(String username) {
-        frame.getContentPane().removeAll();
-        frame.setTitle("Welcome to Student Management System");
-        frame.setSize(800, 500);
-        frame.setLayout(new BorderLayout());
-
-        JLabel welcomeLabel = new JLabel("Welcome to Student Management System, " + username + "!", JLabel.CENTER);
-        welcomeLabel.setFont(new Font("Arial", Font.BOLD, 22));
-
-        frame.add(welcomeLabel, BorderLayout.CENTER);
-        frame.revalidate();
-        frame.repaint();
-    }
 }

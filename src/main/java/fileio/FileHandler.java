@@ -1,7 +1,9 @@
 package fileio;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,7 +14,7 @@ import model.Student;
 public class FileHandler {
 
     private String filename;
-    private ArrayList<Student> records;
+    private final ArrayList<Student> records;
 
     public FileHandler(String filename) {
         this.setFilename(filename);
@@ -40,7 +42,6 @@ public class FileHandler {
         BufferedReader reader = new BufferedReader(new FileReader(getFilename()));
         String line;
 
-        ArrayList<Student> records = returnAllRecords();
         records.clear();
 
         while ((line = reader.readLine()) != null) {
@@ -65,7 +66,7 @@ public class FileHandler {
         String department = tokens[4];
         double gpa = Double.parseDouble(tokens[5]);
 
-        return new Student(ID, name, age, gender, department, gpa);
+        return new Student(name, age, gender, department, gpa);
     }
 
     public ArrayList<Student> returnAllRecords() {
@@ -73,7 +74,7 @@ public class FileHandler {
     }
 
     public boolean contains(String key) {
-        ArrayList<Student> records = returnAllRecords();
+       
         for (Student record : records) {
             if (record.getID().equals(key)) {
                 return true;
@@ -83,7 +84,7 @@ public class FileHandler {
     }
 
     public Student getRecord(String key) {
-        ArrayList<Student> records = returnAllRecords();
+   
         for (Student record : records) {
             if (record.getID().equals(key)) {
                 return record;
@@ -92,22 +93,13 @@ public class FileHandler {
         return null;
     }
 
-    public boolean insertRecord(Student record) {
-
-        ArrayList<Student> records = returnAllRecords();
-        if (!contains(record.getID())) {
+    public void insertRecord(Student record) {
             records.add(record);
-            return true;
-
-        } else {
-            return false;
-        }
-
     }
 
     public boolean deleteRecord(String key){
         
-        ArrayList<Student> records = returnAllRecords();
+       
         for(Student record : records){
             if(record.getID().equals(key)){
                 records.remove(record);
@@ -117,7 +109,11 @@ public class FileHandler {
         return false;
     }
     
-    public void saveToFile() {
-        
+    public void saveToFile() throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(getFilename()));
+        for (Student record : records) {
+            writer.write(record.lineRepresentation() + "\n");
+        }
+        writer.close();
     }
 }

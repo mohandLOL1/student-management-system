@@ -1,8 +1,8 @@
-package gui;
+package ui;
 
 import javax.swing.SwingUtilities;
 
-public class GUI {
+public class App{
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new MainWindow());
     }

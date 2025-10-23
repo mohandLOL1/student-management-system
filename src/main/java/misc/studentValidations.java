@@ -4,7 +4,7 @@ package misc;
 import java.util.Set;
 
 
-public class studentValidations {
+public class StudentValidations {
     
     public static boolean validateID(String stringID) { //random ID, with only digits from 10000 to 20000
       int ID = Integer.parseInt(stringID);
@@ -25,19 +25,11 @@ public class studentValidations {
     public static boolean validateDepartment(String department){ //only letters 
      if(department==null)
        return false;
+     department = department.trim();
+     Set<String> VALID_DEPARTMENTS = Set.of("mechanical engineering", "electrical engineering", "civil engineering", "computer engineering");
      
-     Set<String> VALID_DEPARTMENTS = Set.of("mechanical", "electrical", "civil", "computer");
-     
-     if(!VALID_DEPARTMENTS.contains(department)){
+     if(!VALID_DEPARTMENTS.contains(department.toLowerCase()))
          return false;
-     }
-     char[]Department=department.toCharArray();
-     
-     for(int i=0;i<department.length();i++){
-       if(!Character.isLetter(Department[i])){
-        return false;
-       }
-     }
      
      return true;
     }
