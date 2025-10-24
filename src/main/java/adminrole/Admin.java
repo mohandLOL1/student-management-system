@@ -19,13 +19,22 @@ public class Admin {
     }
     }
 
-    public void addStudent(String name, int age, String gender, String department, double gpa){
-
+    public void addStudent(String name, int age, String gender, String department, double gpa) throws IOException{ //check duplicate students
+        fileHandler.readFromFile();
+        ArrayList<Student> l = fileHandler.returnAllRecords();
+        for(int i=0;i<l.size();i++){
+         Student s=l.get(i);
+         if(s==null) 
+             continue;
+         if(s.getName().equalsIgnoreCase(name)&& s.getAge()==age && s.getGPA()==gpa && s.getGender().equalsIgnoreCase(gender)&&s.getDepartment().equalsIgnoreCase(department))
+             throw new IllegalArgumentException("This student already exists!");  
+        }
         Student temp = new Student(name, age, gender, department, gpa);
         while (fileHandler.contains(temp.getID())) {
             temp.setNewID(Integer.toString(Generator.randomID()));
         }
         fileHandler.insertRecord(temp);
+        
     }
 
     public Student[] getListOfStudents() {
