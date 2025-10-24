@@ -22,6 +22,7 @@ public class ViewStudents extends javax.swing.JFrame {
     public ViewStudents() {
         initComponents();
         loadTable();
+        setTitle("View Students");
     }
 
     public void loadTable() {
