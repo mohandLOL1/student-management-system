@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import model.Student;
 
 public class FileHandler {
@@ -93,6 +94,15 @@ public class FileHandler {
             }
         }
         return null;
+    }
+    public ArrayList<Student> getRecord_byname(String name) {
+        ArrayList<Student> l= new ArrayList<>();
+        for (Student record : records) {
+            if (record.getName().equalsIgnoreCase(name)) {
+               l.add(record);
+            }
+        }
+        return l;
     }
 
     public void insertRecord(Student record) {
