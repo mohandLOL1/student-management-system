@@ -66,7 +66,9 @@ public class FileHandler {
         String department = tokens[4];
         double gpa = Double.parseDouble(tokens[5]);
 
-        return new Student(name, age, gender, department, gpa);
+        Student s = new Student(name, age, gender, department, gpa);
+        s.setNewID(ID); 
+        return s;
     }
 
     public ArrayList<Student> returnAllRecords() {
