@@ -42,7 +42,7 @@ public class Admin {
         return list.toArray(new Student[0]);
     }
 
-    public void removeStudent(String key) {
+    public void removeStudent(String key){
         if (!fileHandler.deleteRecord(key)) {
             throw new IllegalArgumentException("Student not found");
         }
@@ -50,6 +50,13 @@ public class Admin {
 
     public Student getStudent(String key) {
         Student temp = fileHandler.getRecord(key);
+        if (temp == null) {
+            throw new IllegalArgumentException("Student not found");
+        }
+        return temp;
+    }
+    public ArrayList<Student> getStudent_byname(String name) {
+        ArrayList<Student> temp = fileHandler.getRecord_byname(name);
         if (temp == null) {
             throw new IllegalArgumentException("Student not found");
         }
