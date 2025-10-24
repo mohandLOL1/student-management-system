@@ -5,6 +5,9 @@
 package ui;
 
 import adminrole.Admin;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -200,7 +203,9 @@ try {
 
     } catch (IllegalArgumentException ex) {
         JOptionPane.showMessageDialog(null, ex.getMessage(), "Validation Error", JOptionPane.ERROR_MESSAGE);
-    } 
+    }   catch (IOException ex) { 
+            Logger.getLogger(AddStudent.class.getName()).log(Level.SEVERE, null, ex);
+        } 
  
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
