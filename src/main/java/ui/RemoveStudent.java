@@ -23,6 +23,7 @@ public class RemoveStudent extends javax.swing.JFrame {
      */
     public RemoveStudent() {
         initComponents();
+        setTitle("Remove Student");
     }
 
     /**
