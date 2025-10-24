@@ -25,6 +25,7 @@ public class AddStudent extends javax.swing.JFrame {
      */
     public AddStudent() {
         initComponents();
+        setTitle("Add Student");
     }
 
     /**
