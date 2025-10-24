@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.Student;
 
 /**
  *
@@ -23,7 +25,19 @@ public class RemoveStudent extends javax.swing.JFrame {
      */
     public RemoveStudent() {
         initComponents();
+        loadTable();
         setTitle("Remove Student");
+    }
+    
+        public void loadTable() {
+
+        DefaultTableModel m = (DefaultTableModel) jTable2.getModel();
+        m.setRowCount(0);
+        Student[] x = admin.getListOfStudents();
+        for(int i = 0; i < x.length; i++) {
+            Student s = x[i];
+            m.addRow(new Object[]{s.getID(),s.getName(),s.getAge(),s.getGender(),s.getDepartment(),s.getGPA()});
+        }
     }
 
     /**
@@ -35,20 +49,12 @@ public class RemoveStudent extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        ID = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jToggleButton1 = new javax.swing.JToggleButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel1.setText("Enter Student ID:");
-
-        ID.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                IDActionPerformed(evt);
-            }
-        });
 
         jButton1.setText("Close");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -57,50 +63,54 @@ public class RemoveStudent extends javax.swing.JFrame {
             }
         });
 
-        jToggleButton1.setText("Save");
+        jToggleButton1.setText("Remove");
         jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Save_changes(evt);
             }
         });
 
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Name", "Age", "Gender", "Department", "GPA"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable2);
+        if (jTable2.getColumnModel().getColumnCount() > 0) {
+            jTable2.getColumnModel().getColumn(4).setMinWidth(140);
+        }
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
-                .addComponent(ID, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(91, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jToggleButton1)
-                .addGap(36, 36, 36))
+                .addGap(25, 25, 25))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(121, 121, 121)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jToggleButton1))
-                .addGap(30, 30, 30))
+                    .addComponent(jToggleButton1)
+                    .addComponent(jButton1))
+                .addGap(20, 20, 20))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void IDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IDActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_IDActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
@@ -108,13 +118,25 @@ public class RemoveStudent extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void Save_changes(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Save_changes
-       String Key=ID.getText().trim();
+       // TODO add your handling code here:
+       int select=jTable2.getSelectedRow();
+       if (select==-1) {
+        JOptionPane.showMessageDialog(this, "Please select a student to delete!", "No Selection", JOptionPane.WARNING_MESSAGE);
+        return;
+       }
+       String key=jTable2.getValueAt(select, 0).toString();
+       int c = JOptionPane.showConfirmDialog(null,"Are you sure you want to delete this student?","Confirm Deletion",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+       if(c==JOptionPane.YES_OPTION){
        try{
-       admin.removeStudent(Key);
+       admin.removeStudent(key);
        admin.logout();
        JOptionPane.showMessageDialog(null, "Student Removed successfully!");
+       loadTable();
        }catch (IllegalArgumentException e) {
-           JOptionPane.showMessageDialog(null, "Student Not found!","Error",JOptionPane.ERROR_MESSAGE);}                     
+           JOptionPane.showMessageDialog(null, "Student Not found!","Error",JOptionPane.ERROR_MESSAGE);}}
+       else{
+          JOptionPane.showMessageDialog(null,"Deletion canceled.","Canceled",JOptionPane.INFORMATION_MESSAGE);
+       }
     }//GEN-LAST:event_Save_changes
 
     /**
@@ -143,9 +165,9 @@ public class RemoveStudent extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField ID;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable2;
     private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
 }
