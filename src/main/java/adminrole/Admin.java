@@ -10,31 +10,33 @@ public class Admin {
 
     private final FileHandler fileHandler;
 
-    public Admin(){
-    try {
-        this.fileHandler = new FileHandler("data/students.txt");
-        this.fileHandler.readFromFile();
-    } catch (IOException e) {
-        throw new RuntimeException("Failed to load student data", e);
-    }
+    public Admin() {
+        try {
+            this.fileHandler = new FileHandler("data/students.txt");
+            this.fileHandler.readFromFile();
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load student data", e);
+        }
     }
 
-    public void addStudent(String name, int age, String gender, String department, double gpa) throws IOException{ //check duplicate students
+    public void addStudent(String name, int age, String gender, String department, double gpa) throws IOException { //check duplicate students
         fileHandler.readFromFile();
         ArrayList<Student> l = fileHandler.returnAllRecords();
-        for(int i=0;i<l.size();i++){
-         Student s=l.get(i);
-         if(s==null) 
-             continue;
-         if(s.getName().equalsIgnoreCase(name)&& s.getAge()==age && s.getGPA()==gpa && s.getGender().equalsIgnoreCase(gender)&&s.getDepartment().equalsIgnoreCase(department))
-             throw new IllegalArgumentException("This student already exists!");  
+        for (int i = 0; i < l.size(); i++) {
+            Student s = l.get(i);
+            if (s == null) {
+                continue;
+            }
+            if (s.getName().equalsIgnoreCase(name) && s.getAge() == age && s.getGPA() == gpa && s.getGender().equalsIgnoreCase(gender) && s.getDepartment().equalsIgnoreCase(department)) {
+                throw new IllegalArgumentException("This student already exists!");
+            }
         }
         Student temp = new Student(name, age, gender, department, gpa);
         while (fileHandler.contains(temp.getID())) {
             temp.setNewID(Integer.toString(Generator.randomID()));
         }
         fileHandler.insertRecord(temp);
-        
+
     }
 
     public Student[] getListOfStudents() {
@@ -42,7 +44,7 @@ public class Admin {
         return list.toArray(new Student[0]);
     }
 
-    public void removeStudent(String key){
+    public void removeStudent(String key) {
         if (!fileHandler.deleteRecord(key)) {
             throw new IllegalArgumentException("Student not found");
         }
@@ -55,13 +57,7 @@ public class Admin {
         }
         return temp;
     }
-    public ArrayList<Student> getStudent_byname(String name) {
-        ArrayList<Student> temp = fileHandler.getRecord_byname(name);
-        if (temp == null) {
-            throw new IllegalArgumentException("Student not found");
-        }
-        return temp;
-    }
+
 
     public void logout() {
         try {
@@ -70,4 +66,27 @@ public class Admin {
             throw new RuntimeException("Failed to save data to file", e);
         }
     }
+
+   public void updateStudent(Student updatedStudent) {
+    ArrayList<Student> students = fileHandler.returnAllRecords();
+    
+    for (Student s : students) {
+        if (updatedStudent.getID().equals(s.getID())) {
+            System.out.println("Found matching student!");
+            
+            s.setName(updatedStudent.getName());
+            s.setAge(updatedStudent.getAge());
+            s.setGender(updatedStudent.getGender());
+            s.setDepartment(updatedStudent.getDepartment());
+            s.setGPA(updatedStudent.getGPA());
+            
+            
+            logout();
+            break;
+        }
+    }
+    
+ 
 }
+}
+

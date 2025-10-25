@@ -194,7 +194,7 @@ try {
         String studentGender = genderBox.getSelectedItem().toString();
         String dept = depBox.getSelectedItem().toString();
         
-        System.out.println(studentAge);
+       
         admin.addStudent(studentName,studentAge,studentGender,dept,studentGPA);
         admin.logout();
         JOptionPane.showMessageDialog(null, "Student added successfully!");
