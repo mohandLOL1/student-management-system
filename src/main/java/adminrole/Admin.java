@@ -50,7 +50,8 @@ public class Admin {
         }
     }
 
-    public Student getStudent(String key) {
+    public Student getStudent(String key) throws IOException {
+        fileHandler.readFromFile();
         Student temp = fileHandler.getRecord(key);
         if (temp == null) {
             throw new IllegalArgumentException("Student not found");
@@ -58,7 +59,15 @@ public class Admin {
         return temp;
     }
 
-
+    public ArrayList<Student> getStudent_byname(String name) throws IOException {
+        fileHandler.readFromFile();
+        ArrayList<Student> temp = fileHandler.getRecord_byname(name);
+        if (temp == null) {
+            throw new IllegalArgumentException("Student not found");
+        }
+        return temp;
+    }
+        
     public void logout() {
         try {
             fileHandler.saveToFile();
