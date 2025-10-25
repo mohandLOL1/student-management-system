@@ -38,6 +38,10 @@ public class Admin {
         fileHandler.insertRecord(temp);
 
     }
+    
+    public ArrayList<Student> getArrayListofStudents(){
+        return fileHandler.returnAllRecords();
+    }
 
     public Student[] getListOfStudents() {
         ArrayList<Student> list = fileHandler.returnAllRecords();
