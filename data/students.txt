@@ -1,2 +1,3 @@
 17010,mod,27,male,computer engineering,3.9
 13545,mo,18,male,computer engineering,3.3
+15610,lol,17,male,electrical engineering,2.0

@@ -185,30 +185,59 @@ public class AddStudent extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_gpaActionPerformed
 
-    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-try {
-        // Step 1: Parse
+private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+    try {
+        name.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.GRAY));
+        age.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.GRAY));
+        gpa.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.GRAY));
         String studentName = name.getText().trim();
-        int studentAge = Integer.parseInt(age.getText().trim()); 
-        double studentGPA = Double.parseDouble(gpa.getText().trim());
+        String ageText = age.getText().trim();
+        String gpaText = gpa.getText().trim();
         String studentGender = genderBox.getSelectedItem().toString();
         String dept = depBox.getSelectedItem().toString();
         
-       
-        admin.addStudent(studentName,studentAge,studentGender,dept,studentGPA);
+        boolean hasError = false;
+        
+
+        admin.addStudent(studentName,Integer.parseInt(ageText),studentGender,dept,Double.parseDouble(gpaText));
+
+        if (studentName.isEmpty()) {
+            name.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.RED, 2));
+            hasError = true;
+        }
+        if (ageText.isEmpty()) {
+            age.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.RED, 2));
+            hasError = true;
+        }
+        if (gpaText.isEmpty()) {
+            gpa.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.RED, 2));
+            hasError = true;
+        }
+        if (hasError) {
+            JOptionPane.showMessageDialog(null, "Please fill all required fields.", "Input Error", JOptionPane.WARNING_MESSAGE);
+            return; 
+        }
+        int studentAge = Integer.parseInt(ageText);
+        double studentGPA = Double.parseDouble(gpaText);
+
+        System.out.println(studentAge);
+        admin.addStudent(studentName, studentAge, studentGender, dept, studentGPA);
         admin.logout();
         JOptionPane.showMessageDialog(null, "Student added successfully!");
-
-    } catch (NumberFormatException ex) {
-        JOptionPane.showMessageDialog(null, "Age and GPA must be numbers", "Input Error", JOptionPane.ERROR_MESSAGE);
-
-    } catch (IllegalArgumentException ex) {
-        JOptionPane.showMessageDialog(null, ex.getMessage(), "Validation Error", JOptionPane.ERROR_MESSAGE);
-    }   catch (IOException ex) { 
-            Logger.getLogger(AddStudent.class.getName()).log(Level.SEVERE, null, ex);
         } 
- 
-    }//GEN-LAST:event_jToggleButton1ActionPerformed
+    catch (NumberFormatException ex) 
+    {
+        JOptionPane.showMessageDialog(null, "Age and GPA must be numbers", "Input Error", JOptionPane.ERROR_MESSAGE);
+    } 
+    catch (IllegalArgumentException ex) {
+        JOptionPane.showMessageDialog(null, ex.getMessage(), "Validation Error", JOptionPane.ERROR_MESSAGE);
+    } 
+    catch (IOException ex)
+    {
+        Logger.getLogger(AddStudent.class.getName()).log(Level.SEVERE, null, ex);
+    }
+}//GEN-LAST:event_jToggleButton1ActionPerformed
+
 
     private void genderBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genderBoxActionPerformed
         // TODO add your handling code here:
