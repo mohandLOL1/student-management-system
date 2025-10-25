@@ -4,6 +4,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import adminrole.Admin;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import model.Student;
@@ -44,7 +45,7 @@ public class Search extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Enter Student ID:");
+        jLabel1.setText("Enter Student ID or Name:");
 
         ID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -106,18 +107,43 @@ public class Search extends javax.swing.JFrame {
                     
 
 
-    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                               
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt){                                               
         // TODO add your handling code here:
-        String studentID = ID.getText();
-        try {
-            Student s = admin.getStudent(studentID);
+       String key=ID.getText().trim();
+       if(key.isEmpty()){
+         JOptionPane.showMessageDialog(null, "Please enter name or id !","Error",JOptionPane.ERROR_MESSAGE); 
+         return ;
+       }
+       Student s=null;
+       ArrayList<Student> l=null;
+       
+       try{
+          s=admin.getStudent(key);
+       }catch (IllegalArgumentException e) {
+   
+         } catch (IOException ex) {
+            Logger.getLogger(Search.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       if(s==null)
+          try{
+            l=admin.getStudent_byname(key);
+          }catch (IllegalArgumentException e){
+      
+           } catch (IOException ex) {
+           Logger.getLogger(Search.class.getName()).log(Level.SEVERE, null, ex);
+       }
+       if(s!=null){
             Search_Result sr = new Search_Result(s);
-            this.setVisible(false);
+            sr.loadTable();
             sr.setVisible(true);
-            
-        } catch (IllegalArgumentException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Validation Error", JOptionPane.ERROR_MESSAGE);
-        }        
+            admin.logout();}
+       else if(l!=null&&!l.isEmpty()){
+            Search_Result sr = new Search_Result();
+            sr.loadTable_byname(l);
+            sr.setVisible(true);
+            admin.logout();}
+       else{
+          JOptionPane.showMessageDialog(null, "Student Not found!","Error",JOptionPane.ERROR_MESSAGE);}       
         
 
     }                                              

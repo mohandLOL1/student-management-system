@@ -23,12 +23,36 @@ public class Search_Result extends javax.swing.JFrame {
         setTitle("Search Result");
     }
     
+    public Search_Result() {
+        initComponents();
+        setTitle("Search Result");
+    }
+    
     public void loadTable() {
         DefaultTableModel m = (DefaultTableModel) tableField.getModel();
         m.setRowCount(0);
         m.addRow(new Object[]{student.getID(), student.getName(), student.getAge(), student.getGender(), student.getDepartment(), student.getGPA()});
     }
+    
+    public void loadTable_byname(ArrayList<Student> l) {
 
+        DefaultTableModel m = (DefaultTableModel) tableField.getModel();
+        m.setRowCount(0);
+        for (Student s : l) {
+        m.addRow(new Object[]{s.getID(),s.getName(),s.getAge(),s.getGender(),s.getDepartment(),s.getGPA()});}
+        
+        }
+
+    public void validate_name(String Name){
+
+     char[]name=Name.toCharArray();
+     
+     for(int i=0;i<Name.length();i++){
+      if(!Character.isLetter(name[i]))
+       throw new IllegalArgumentException("Name must be letters only");
+     }
+     
+    }
 
 
     /**
@@ -112,7 +136,15 @@ public class Search_Result extends javax.swing.JFrame {
     private void UpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateActionPerformed
 
           DefaultTableModel model = (DefaultTableModel) tableField.getModel();
-         
+          
+        if (tableField.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Please select a student to update!", "No Selection", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+         if (tableField.isEditing()) {
+          tableField.getCellEditor().stopCellEditing();
+          }
+        
           try{
             String id = model.getValueAt(0, 0).toString();
             String name = model.getValueAt(0, 1).toString();
@@ -121,18 +153,25 @@ public class Search_Result extends javax.swing.JFrame {
             String dept = model.getValueAt(0, 4).toString();
             double gpa = Double.parseDouble(model.getValueAt(0, 5).toString());
             
-            
-            
+             validate_name(name);
+             
+            if (student != null && student.getID().equals(id)){
             student.setName(name);
             student.setAge(age);
             student.setGender(gender);
             student.setDepartment(dept);
             student.setGPA(gpa);
-            
-            
             admin.updateStudent(student);
+            }
+            else{
+             Student s=new Student(name, age, gender, dept, gpa);
+             s.setNewID(id);
+             admin.updateStudent(s);
+            }
+            
             admin.logout();
             JOptionPane.showMessageDialog(this, "Edited successfully");
+            tableField.clearSelection();
           }
        catch (IllegalArgumentException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Validation Error", JOptionPane.ERROR_MESSAGE);

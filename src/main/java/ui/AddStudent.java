@@ -27,7 +27,17 @@ public class AddStudent extends javax.swing.JFrame {
         initComponents();
         setTitle("Add Student");
     }
+   public void validate_name(String Name){
 
+     char[]name=Name.toCharArray();
+     
+     for(int i=0;i<Name.length();i++){
+      if(!Character.isLetter(name[i]))
+       throw new IllegalArgumentException("Name must be letters only");
+     }
+     
+   }
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -197,9 +207,6 @@ private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GE
         String dept = depBox.getSelectedItem().toString();
         
         boolean hasError = false;
-        
-
-        admin.addStudent(studentName,Integer.parseInt(ageText),studentGender,dept,Double.parseDouble(gpaText));
 
         if (studentName.isEmpty()) {
             name.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.RED, 2));
@@ -217,11 +224,10 @@ private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GE
             JOptionPane.showMessageDialog(null, "Please fill all required fields.", "Input Error", JOptionPane.WARNING_MESSAGE);
             return; 
         }
-        int studentAge = Integer.parseInt(ageText);
-        double studentGPA = Double.parseDouble(gpaText);
-
-        System.out.println(studentAge);
-        admin.addStudent(studentName, studentAge, studentGender, dept, studentGPA);
+        
+        validate_name(studentName);
+        
+        admin.addStudent(studentName,Integer.parseInt(ageText),studentGender,dept,Double.parseDouble(gpaText));
         admin.logout();
         JOptionPane.showMessageDialog(null, "Student added successfully!");
         } 
