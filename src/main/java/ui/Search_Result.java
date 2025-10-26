@@ -28,14 +28,12 @@ public class Search_Result extends javax.swing.JFrame {
         loadTable();
         setTitle("Search Result");
     }
-    
+
     public void loadTable() {
         DefaultTableModel m = (DefaultTableModel) tableField.getModel();
         m.setRowCount(0);
         m.addRow(new Object[]{student.getID(), student.getName(), student.getAge(), student.getGender(), student.getDepartment(), student.getGPA()});
     }
-
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -115,38 +113,38 @@ public class Search_Result extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void UpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateActionPerformed
-          DefaultTableModel model = (DefaultTableModel) tableField.getModel();
-         
-          try{
+        DefaultTableModel model = (DefaultTableModel) tableField.getModel();
+
+        try {
             String id = model.getValueAt(0, 0).toString();
             String name = model.getValueAt(0, 1).toString();
             int age = Integer.parseInt(model.getValueAt(0, 2).toString());
             String gender = model.getValueAt(0, 3).toString();
             String dept = model.getValueAt(0, 4).toString();
             double gpa = Double.parseDouble(model.getValueAt(0, 5).toString());
-            
-            
-            
+
             student.setName(name);
             student.setAge(age);
             student.setGender(gender);
             student.setDepartment(dept);
             student.setGPA(gpa);
-            
-            
+
             admin.updateStudent(student);
             admin.logout();
             JOptionPane.showMessageDialog(this, "Edited successfully");
-          }
-       catch (IllegalArgumentException ex) {
+            
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "Age and GPA must be numbers", "Input Error", JOptionPane.ERROR_MESSAGE);
+
+        } catch (IllegalArgumentException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Validation Error", JOptionPane.ERROR_MESSAGE);
-        }   
+        }
+
     }//GEN-LAST:event_UpdateActionPerformed
-        
-    
-        /**
-         * @param args the command line arguments
-         */
+
+    /**
+     * @param args the command line arguments
+     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
