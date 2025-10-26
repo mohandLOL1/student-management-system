@@ -55,19 +55,42 @@ public void showLoginScreen() {
     frame.add(passPanel);
     frame.add(buttonPanel);
     frame.add(messageLabel);
-
+    
     loginButton.addActionListener(e -> {
+        try{
+
         String username = usernameField.getText().trim();
         String password = new String(passwordField.getPassword()).trim();
+        boolean hasError = false;
+        
+        usernameField.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.GRAY, 1));
+        passwordField.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.GRAY, 1));
 
+        if (username.isEmpty()) {
+            usernameField.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.RED, 2));
+            hasError = true;
+        }
+        
+        if (password.isEmpty()) {
+            passwordField.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.RED, 2));
+            hasError = true;
+        }
+        
+        if (hasError) {
+            JOptionPane.showMessageDialog(null, "Please fill all required fields.", "Input Error", JOptionPane.WARNING_MESSAGE);
+            return; 
+        }
        
-            if (Login.user_login(username, password)) {
-                HomePage h = new HomePage();
-                h.setVisible(true);
-                frame.setVisible(false);
-            } else {
-                messageLabel.setText("Invalid username or password!");
+        if (Login.user_login(username, password)) {
+               HomePage h = new HomePage();
+               h.setVisible(true);
+               frame.setVisible(false);
+        } else {
+              messageLabel.setText("Invalid username or password!");
             }
+        } catch (IllegalArgumentException ex) {
+        JOptionPane.showMessageDialog(null, ex.getMessage(), "Validation Error", JOptionPane.ERROR_MESSAGE);
+    } 
     });
 
     frame.setVisible(true);
