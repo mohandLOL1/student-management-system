@@ -19,7 +19,7 @@ public class MainWindow {
     }
 
 public void showLoginScreen() {
-    frame = new JFrame("Login - Student Management System");
+frame = new JFrame("Login - Student Management System");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setSize(400, 250);
     frame.setLocationRelativeTo(null);
@@ -95,5 +95,4 @@ public void showLoginScreen() {
 
     frame.setVisible(true);
 }
-
 }

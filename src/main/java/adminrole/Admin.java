@@ -99,9 +99,16 @@ public class Admin {
         }
     }
     
+    
+    
+    
  
 
 }
+   
+    public ArrayList<Student> getArrayListofStudents(){
+        return fileHandler.returnAllRecords();
+    }
 }
 
 

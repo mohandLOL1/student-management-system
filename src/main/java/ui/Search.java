@@ -10,13 +10,13 @@ import javax.swing.table.DefaultTableModel;
 import model.Student;
 
 public class Search extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AddStudent.class.getName());
     private javax.swing.JTable tableField;
     private Admin admin = new Admin();
-    
+
     @SuppressWarnings("unused")
-    
+
     public Search() {
         initComponents();
         setTitle("Search");

@@ -1,3 +1,1 @@
-13545,mox,20,female,computer engineering,3.3
-16458,m,20,male,computer engineering,2.0
-13314,mo,18,female,mechanical engineering,3.1
+
