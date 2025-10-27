@@ -45,7 +45,7 @@ public class Search extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Enter Student ID or Name:");
+        jLabel1.setText("Enter Student ID:");
 
         ID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
