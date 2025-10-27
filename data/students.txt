@@ -1,3 +1,2 @@
-17010,mod,27,male,computer engineering,3.9
 13545,m,19,male,computer engineering,3.3
-13330,sda,18,female,computer engineering,4.0
+17392,m,17,male,computer engineering,4.0

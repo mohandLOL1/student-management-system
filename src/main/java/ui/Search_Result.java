@@ -5,10 +5,11 @@
 package ui;
 
 import adminrole.Admin;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Student;
+import static misc.StudentValidations.validate_name;
+
 
 /**
  *
@@ -114,6 +115,12 @@ public class Search_Result extends javax.swing.JFrame {
 
     private void UpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateActionPerformed
         DefaultTableModel model = (DefaultTableModel) tableField.getModel();
+        
+        
+        if (tableField.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Please select a student to update!", "No Selection", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         try {
             String id = model.getValueAt(0, 0).toString();
@@ -122,7 +129,9 @@ public class Search_Result extends javax.swing.JFrame {
             String gender = model.getValueAt(0, 3).toString();
             String dept = model.getValueAt(0, 4).toString();
             double gpa = Double.parseDouble(model.getValueAt(0, 5).toString());
-
+           
+            validate_name(name);
+            
             student.setName(name);
             student.setAge(age);
             student.setGender(gender);

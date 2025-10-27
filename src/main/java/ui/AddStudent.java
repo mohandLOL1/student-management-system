@@ -186,27 +186,54 @@ public class AddStudent extends javax.swing.JFrame {
     }//GEN-LAST:event_gpaActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-try {
-        // Step 1: Parse
+
+        
+        try {
+        name.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.GRAY));
+        age.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.GRAY));
+        gpa.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.GRAY));
         String studentName = name.getText().trim();
-        int studentAge = Integer.parseInt(age.getText().trim()); 
-        double studentGPA = Double.parseDouble(gpa.getText().trim());
+        String ageText = age.getText().trim();
+        String gpaText = gpa.getText().trim();
         String studentGender = genderBox.getSelectedItem().toString();
         String dept = depBox.getSelectedItem().toString();
         
-       
-        admin.addStudent(studentName,studentAge,studentGender,dept,studentGPA);
+        boolean hasError = false;
+
+        if (studentName.isEmpty()) {
+            name.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.RED, 2));
+            hasError = true;
+        }
+        if (ageText.isEmpty()) {
+            age.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.RED, 2));
+            hasError = true;
+        }
+        if (gpaText.isEmpty()) {
+            gpa.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.RED, 2));
+            hasError = true;
+        }
+        if (hasError) {
+            JOptionPane.showMessageDialog(null, "Please fill all required fields.", "Input Error", JOptionPane.WARNING_MESSAGE);
+            return; 
+        }
+        
+        validate_name(studentName);
+        
+        admin.addStudent(studentName,Integer.parseInt(ageText),studentGender,dept,Double.parseDouble(gpaText));
         admin.logout();
         JOptionPane.showMessageDialog(null, "Student added successfully!");
-
-    } catch (NumberFormatException ex) {
-        JOptionPane.showMessageDialog(null, "Age and GPA must be numbers", "Input Error", JOptionPane.ERROR_MESSAGE);
-
-    } catch (IllegalArgumentException ex) {
-        JOptionPane.showMessageDialog(null, ex.getMessage(), "Validation Error", JOptionPane.ERROR_MESSAGE);
-    }   catch (IOException ex) { 
-            Logger.getLogger(AddStudent.class.getName()).log(Level.SEVERE, null, ex);
         } 
+    catch (NumberFormatException ex) 
+    {
+        JOptionPane.showMessageDialog(null, "Age and GPA must be numbers", "Input Error", JOptionPane.ERROR_MESSAGE);
+    } 
+    catch (IllegalArgumentException ex) {
+        JOptionPane.showMessageDialog(null, ex.getMessage(), "Validation Error", JOptionPane.ERROR_MESSAGE);
+    } 
+    catch (IOException ex)
+    {
+        Logger.getLogger(AddStudent.class.getName()).log(Level.SEVERE, null, ex);
+    }
  
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
@@ -247,6 +274,17 @@ try {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new AddStudent().setVisible(true));
     }
+    
+     public void validate_name(String Name){
+
+     char[]name=Name.toCharArray();
+     
+     for(int i=0;i<Name.length();i++){
+      if(!Character.isLetter(name[i]))
+       throw new IllegalArgumentException("Name must be letters only");
+     }
+     
+   }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField age;

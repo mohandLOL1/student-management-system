@@ -13,13 +13,13 @@ import javax.swing.table.DefaultTableModel;
 import model.Student;
 
 public class Search extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AddStudent.class.getName());
     private javax.swing.JTable tableField;
     private Admin admin = new Admin();
-    
+
     @SuppressWarnings("unused")
-    
+
     public Search() {
         initComponents();
         setTitle("Search");
@@ -110,16 +110,23 @@ public class Search extends javax.swing.JFrame {
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         // TODO add your handling code here:
         String studentID = ID.getText();
+
+        if (studentID.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please enter ID!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+       
+
         try {
             Student s = admin.getStudent(studentID);
             Search_Result sr = new Search_Result(s);
             this.setVisible(false);
             sr.setVisible(true);
-            
+
         } catch (IllegalArgumentException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Validation Error", JOptionPane.ERROR_MESSAGE);
-        }        
-        
+        }
+
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     /**
