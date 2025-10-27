@@ -30,14 +30,6 @@ public class Search_Result extends javax.swing.JFrame {
         m.addRow(new Object[]{student.getID(), student.getName(), student.getAge(), student.getGender(), student.getDepartment(), student.getGPA()});
     }
     
-    public void loadTable_byname(ArrayList<Student> l) {
-
-        DefaultTableModel m = (DefaultTableModel) tableField.getModel();
-        m.setRowCount(0);
-        for (Student s : l) {
-        m.addRow(new Object[]{s.getID(),s.getName(),s.getAge(),s.getGender(),s.getDepartment(),s.getGPA()});}
-        
-        }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -143,12 +135,6 @@ public class Search_Result extends javax.swing.JFrame {
             student.setGPA(gpa);
 
             admin.updateStudent(student);
-            }
-            else{
-             Student s=new Student(name, age, gender, dept, gpa);
-             s.setNewID(id);
-             admin.updateStudent(s);
-            }
             
             admin.logout();
             JOptionPane.showMessageDialog(this, "Edited successfully");
