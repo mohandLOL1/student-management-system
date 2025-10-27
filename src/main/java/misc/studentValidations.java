@@ -4,7 +4,7 @@ package misc;
 import java.util.Set;
 
 
-public class StudentValidations {
+public class StudentValidations{
     
     public static boolean validateID(String stringID) { //random ID, with only digits from 10000 to 20000
       int ID = Integer.parseInt(stringID);
