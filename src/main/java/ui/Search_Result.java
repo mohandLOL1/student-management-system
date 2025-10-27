@@ -2,10 +2,11 @@
 package ui;
 
 import adminrole.Admin;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Student;
+import static misc.StudentValidations.validate_name;
+
 
 
 public class Search_Result extends javax.swing.JFrame {
@@ -22,12 +23,7 @@ public class Search_Result extends javax.swing.JFrame {
         loadTable();
         setTitle("Search Result");
     }
-    
-    public Search_Result() {
-        initComponents();
-        setTitle("Search Result");
-    }
-    
+
     public void loadTable() {
         DefaultTableModel m = (DefaultTableModel) tableField.getModel();
         m.setRowCount(0);
@@ -42,18 +38,6 @@ public class Search_Result extends javax.swing.JFrame {
         m.addRow(new Object[]{s.getID(),s.getName(),s.getAge(),s.getGender(),s.getDepartment(),s.getGPA()});}
         
         }
-
-    public void validate_name(String Name){
-
-     char[]name=Name.toCharArray();
-     
-     for(int i=0;i<Name.length();i++){
-      if(!Character.isLetter(name[i]))
-       throw new IllegalArgumentException("Name must be letters only");
-     }
-     
-    }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -134,33 +118,30 @@ public class Search_Result extends javax.swing.JFrame {
 
 
     private void UpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateActionPerformed
-
-          DefaultTableModel model = (DefaultTableModel) tableField.getModel();
-          
+        DefaultTableModel model = (DefaultTableModel) tableField.getModel();
+        
+        
         if (tableField.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(null, "Please select a student to update!", "No Selection", JOptionPane.ERROR_MESSAGE);
             return;
         }
-         if (tableField.isEditing()) {
-          tableField.getCellEditor().stopCellEditing();
-          }
-        
-          try{
+
+        try {
             String id = model.getValueAt(0, 0).toString();
             String name = model.getValueAt(0, 1).toString();
             int age = Integer.parseInt(model.getValueAt(0, 2).toString());
             String gender = model.getValueAt(0, 3).toString();
             String dept = model.getValueAt(0, 4).toString();
             double gpa = Double.parseDouble(model.getValueAt(0, 5).toString());
+           
+            validate_name(name);
             
-             validate_name(name);
-             
-            if (student != null && student.getID().equals(id)){
             student.setName(name);
             student.setAge(age);
             student.setGender(gender);
             student.setDepartment(dept);
             student.setGPA(gpa);
+
             admin.updateStudent(student);
             }
             else{
@@ -171,21 +152,19 @@ public class Search_Result extends javax.swing.JFrame {
             
             admin.logout();
             JOptionPane.showMessageDialog(this, "Edited successfully");
-            tableField.clearSelection();
-          }
-       catch (IllegalArgumentException ex) {
+            
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "Age and GPA must be numbers", "Input Error", JOptionPane.ERROR_MESSAGE);
+
+        } catch (IllegalArgumentException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Validation Error", JOptionPane.ERROR_MESSAGE);
-        }   
+        }
 
     }//GEN-LAST:event_UpdateActionPerformed
 
-                                          
-
-        
-    
-        /**
-         * @param args the command line arguments
-         */
+    /**
+     * @param args the command line arguments
+     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

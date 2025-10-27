@@ -52,7 +52,7 @@ public class ViewStudents extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tableField = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jToggleButton1 = new javax.swing.JToggleButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -97,10 +97,10 @@ public class ViewStudents extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Filter");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jToggleButton1.setText("Filter");
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jToggleButton1ActionPerformed(evt);
             }
         });
 
@@ -115,7 +115,7 @@ public class ViewStudents extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2)))
+                        .addComponent(jToggleButton1)))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -126,7 +126,7 @@ public class ViewStudents extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                    .addComponent(jButton2))
+                    .addComponent(jToggleButton1))
                 .addContainerGap())
         );
 
@@ -137,7 +137,9 @@ public class ViewStudents extends javax.swing.JFrame {
         this.setVisible(false);        // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        // TODO add your handling code here:
+        
         DefaultTableModel m = (DefaultTableModel) tableField.getModel();
         ArrayList<Student> students = admin.getArrayListofStudents();
         students.sort(Comparator.comparingDouble(Student::getGPA).reversed());
@@ -146,8 +148,7 @@ public class ViewStudents extends javax.swing.JFrame {
             Student s = students.get(i);
             m.addRow(new Object[]{s.getID(),s.getName(),s.getAge(),s.getGender(),s.getDepartment(),s.getGPA()});
         }
-        
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -180,6 +181,7 @@ public class ViewStudents extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
+    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JTable tableField;
     // End of variables declaration//GEN-END:variables
 }
